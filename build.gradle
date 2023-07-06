@@ -1,0 +1,39 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'com.google.inject:guice:7.0.0'
+    implementation 'com.google.guava:guava:32.1.1-jre'
+    testImplementation "org.junit.jupiter:junit-jupiter-engine:5.8.1"
+    testImplementation "org.junit.jupiter:junit-jupiter-params:5.8.1"
+}
+
+// Create a single jar with all dependencies
+// in the following path: ./build/libs/beyonnex-anagram-checker.jar
+tasks.register('package', Jar) {
+    manifest {
+        attributes 'Implementation-Title': 'Beyonnex Anagram Checker App',
+                'Implementation-Version': archiveVersion,
+                'Main-Class': 'io.beyonnex.CommandLineRunnerApp'
+    }
+    duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
+    archiveBaseName = project.name + '-anagram-checker'
+    from { configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
+    }
+}
+
+application {
+    mainClass = 'io.beyonnex.CommandLineRunnerApp'
+}
