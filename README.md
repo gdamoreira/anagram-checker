@@ -28,6 +28,12 @@ cd anagram-checker
 java -jar build/libs/beyonnex-anagram-checker.jar <string1> <string2>
 ```
 
+Or through Gradle:
+
+```shell
+./gradlew run --args="<string1> <string2>"
+```
+
 Replace `<string1>` and `<string2>` with the two strings you want to check for anagrams.
 
 ## Example
